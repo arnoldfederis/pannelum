@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pannellum</title>
+	<link rel="stylesheet" type="text/css" href="pannellum.css">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="pannellum.js"></script>
+	<style type="text/css">
+		html, body {
+			height: 100%;
+		}
+		body {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		#panorama {
+	        width: 672px;
+	        height: 300px;
+	    }
+	    .content {
+	    	display: none;
+	    	position: absolute;
+	    	top: 26px;
+	    }
+	    .navbar-controls {
+    	    bottom: 0;
+		    position: absolute;
+		    width: 100%;
+		    left: 0;
+		    z-index: 90;
+		    height: 40px;
+		    background: rgba(61,61,61,.5);
+		    align-items: center;
+	    }
+	    .panorama-button {
+			width: 20px;
+			height: 20px;
+			padding: 10px;
+			cursor: pointer;
+			float: left;
+	    }
+	    .panorama-button.active {
+			background: rgba(255,255,255, 0.26);
+	    }
+	    .panorama-button.active svg {
+	    	fill: #000;
+	    }
+	    .panorama-button svg {
+	    	fill: #e0deda;
+	    }
+	    .fullscreen {
+	    	float: right !important;
+	    }
+	    .pnlm-about-msg {
+	    	flex-flow: column;
+	    	-webkit-flex-flow: column;
+	    }
+	    .pnlm-about-msg a {
+	    	padding: 1em;
+	    	color: #fff;
+	    }
+	    .pnlm-container {
+	    	background: radial-gradient(#fff 0,#fdfdfd 16%,#fbfbfb 33%,#f8f8f8 49%,#efefef 66%,#dfdfdf 82%,#bfbfbf 100%);
+	    }
+	    .pnlm-load-box {
+		    align-items: center;
+		    justify-content: center;
+		    height: 100%;
+	    }
+	    .panorama-loader {
+    	    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    border: 10px solid #7b7b7b;
+		    border-radius: 100%;
+		    height: 40%;
+		    width: 120px;
+	    }
+	    .loading-image {
+	    	max-width: 85px;
+	    	max-height: 85px;
+	    }
+	    .loader {
+		  	height: 5px;
+		  	width: 100%;
+		  	position: absolute;
+		  	overflow: hidden;
+		  	background-color: #ddd;
+		  	top: 0;
+		}
+		.loader:before{
+		  	display: block;
+		  	position: absolute;
+		  	content: "";
+		  	left: -200px;
+		  	width: 200px;
+		  	height: 4px;
+		  	background-color: #2980b9;
+		  	animation: loading 1.5s linear infinite;
+		}
+
+		@keyframes loading {
+		    from {left: -200px; width: 30%;}
+		    50% {width: 30%;}
+		    70% {width: 70%;}
+		    80% { left: 50%;}
+		    95% {left: 120%;}
+		    to {left: 100%;}
+		}
+	</style>
+</head>
+<body>
+	<div class="loader"></div>
+	<div class="content">
+		<h1>Hello World</h1>
+	</div>
+		<div id="panorama">
+			<div id="controls" class="navbar-controls">
+				<div class="panorama-button auto-rotate active" title="Automatic rotation" onclick="autoRotate()">
+					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 41 41" enable-background="new 0 0 41 41" xml:space="preserve" class="psv-button-svg"><path d="M40.5,14.1c-0.1-0.1-1.2-0.5-2.898-1C37.5,13.1,37.4,13,37.4,12.9C34.5,6.5,28,2,20.5,2S6.6,6.5,3.7,12.9c0,0.1-0.1,0.1-0.2,0.2c-1.7,0.6-2.8,1-2.9,1L0,14.4v12.1l0.6,0.2c0.1,0,1.1,0.399,2.7,0.899c0.1,0,0.2,0.101,0.2,0.199C6.3,34.4,12.9,39,20.5,39c7.602,0,14.102-4.6,16.9-11.1c0-0.102,0.1-0.102,0.199-0.2c1.699-0.601,2.699-1,2.801-1l0.6-0.3V14.3L40.5,14.1z M6.701,11.5C9.7,7,14.8,4,20.5,4c5.8,0,10.9,3,13.8,7.5c0.2,0.3-0.1,0.6-0.399,0.5c-3.799-1-8.799-2-13.6-2c-4.7,0-9.5,1-13.2,2C6.801,12.1,6.601,11.8,6.701,11.5z M25.1,20.3L18.7,24c-0.3,0.2-0.7,0-0.7-0.5v-7.4c0-0.4,0.4-0.6,0.7-0.4 l6.399,3.8C25.4,19.6,25.4,20.1,25.1,20.3z M34.5,29.201C31.602,33.9,26.4,37,20.5,37c-5.9,0-11.1-3.1-14-7.898c-0.2-0.302,0.1-0.602,0.4-0.5c3.9,1,8.9,2.1,13.6,2.1c5,0,9.9-1,13.602-2C34.4,28.602,34.602,28.9,34.5,29.201z"></path>
+					</svg>
+				</div>
+
+				<div class="panorama-button zoom-minus" title="Zoom out" onclick="zoomOut()">
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve" 
+						class="psv-button-svg">
+						<path d="M14.043,12.22c2.476-3.483,1.659-8.313-1.823-10.789C8.736-1.044,3.907-0.228,1.431,3.255c-2.475,3.482-1.66,8.312,1.824,10.787c2.684,1.908,6.281,1.908,8.965,0l4.985,4.985c0.503,0.504,1.32,0.504,1.822,0c0.505-0.503,0.505-1.319,0-1.822L14.043,12.22z M7.738,13.263c-3.053,0-5.527-2.475-5.527-5.525c0-3.053,2.475-5.527,5.527-5.527c3.05,0,5.524,2.474,5.524,5.527C13.262,10.789,10.788,13.263,7.738,13.263z"></path>
+						<rect x="4.006" y="6.746" width="7.459" height="1.984"></rect>
+					</svg>
+				</div>
+
+				<div class="panorama-button zoom-plus" title="Zoom in" onclick="zoomIn()">
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve" class="psv-button-svg">
+						<path d="M14.043,12.22c2.476-3.483,1.659-8.313-1.823-10.789C8.736-1.044,3.907-0.228,1.431,3.255c-2.475,3.482-1.66,8.312,1.824,10.787c2.684,1.908,6.281,1.908,8.965,0l4.985,4.985c0.503,0.504,1.32,0.504,1.822,0c0.505-0.503,0.505-1.319,0-1.822L14.043,12.22z M7.738,13.263c-3.053,0-5.527-2.475-5.527-5.525c0-3.053,2.475-5.527,5.527-5.527c3.05,0,5.524,2.474,5.524,5.527C13.262,10.789,10.788,13.263,7.738,13.263z"></path>
+						<polygon points="8.728,4.009 6.744,4.009 6.744,6.746 4.006,6.746 4.006,8.73 6.744,8.73 6.744,11.466 8.728,11.466 8.728,8.73 11.465,8.73 11.465,6.746 8.728,6.746"></polygon>
+					</svg>
+				</div>
+
+				<div class="panorama-button fullscreen" title="Fullscreen" onclick="toggleFullscreen()">
+					<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve" 
+					class="psv-button-svg">
+						<polygon points="100,39.925 87.105,39.925 87.105,18.895 66.075,18.895 66.075,6 100,6"></polygon><polygon points="100,93.221 66.075,93.221 66.075,80.326 87.105,80.326 87.105,59.295 100,59.295"></polygon><polygon points="33.925,93.221 0,93.221 0,59.295 12.895,59.295 12.895,80.326 33.925,80.326"></polygon><polygon points="12.895,39.925 0,39.925 0,6 33.925,6 33.925,18.895 12.895,18.895"></polygon>
+					</svg>
+				</div>
+			</div>
+		</div>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){ 
+
+			var panorama, config;
+
+			panorama = pannellum.viewer('panorama', {
+			    "panorama": "360.jpg",
+			    "autoRotate": -10,
+			    "autoLoad": true,
+			    "hfov": 120,
+			    "showControls": false,
+			    "mouseZoom": true,
+			    "keyboardZoom": false,
+			    "disableKeyboardCtrl": true,
+			    "doubleClickZoom": false
+			});
+
+			init = function() {
+
+				$(".loader").fadeOut(2600, function() {
+			        $(".content").fadeIn(500);        
+			    });
+
+				// Set the name of the hidden property and the change event for visibility
+				var hidden, visibilityChange; 
+				if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support 
+				  	hidden = "hidden";
+				  	visibilityChange = "visibilitychange";
+				} else if (typeof document.msHidden !== "undefined") {
+				  	hidden = "msHidden";
+				  	visibilityChange = "msvisibilitychange";
+				} else if (typeof document.webkitHidden !== "undefined") {
+				  	hidden = "webkitHidden";
+				  	visibilityChange = "webkitvisibilitychange";
+				}
+				 
+				var videoElement = document.getElementById("videoElement");
+
+				// If the page is hidden, pause the video;
+				// if the page is shown, play the video
+				function handleVisibilityChange() {
+				  	if (document[hidden]) {
+				    	console.log('hidden');
+				  	} else {
+				    	console.log('focus');
+				  	}
+				}
+
+				// Warn if the browser doesn't support addEventListener or the Page Visibility API
+				if (typeof document.addEventListener === "undefined" || typeof document.hidden === "undefined") {
+				  	console.log("This demo requires a browser, such as Google Chrome or Firefox, that supports the Page Visibility API.");
+				} else {
+				  	document.addEventListener(visibilityChange, handleVisibilityChange, false);
+				}
+
+				$('.pnlm-dragfix').on('contextmenu', function() {
+					$('.pnlm-about-msg').css('display', 'flex');
+					$('.pnlm-about-msg').html('<a onclick="autoRotate()">Auto Rotate</a><a onclick="zoomIn()">Zoom In</a><a onclick="zoomOut()">Zoom Out</a><a onclick="toggleFullscreen()">Fullscreen</a>');
+				});
+
+				$('.pnlm-load-box').css('display', 'flex');
+				$('.pnlm-load-box').html('<div class="panorama-loader"><img class="loading-image" src="/logo.png"></div>');
+
+				$('.zoom-plus').on('click', function(e) {
+					e.preventDefault();
+					$('.zoom-plus').addClass('active');
+
+					setTimeout(function() {
+						$('.zoom-plus').removeClass('active');
+					}, 100);
+				});
+
+				$('.zoom-minus').on('click', function(e) {
+					e.preventDefault();
+					$('.zoom-minus').addClass('active');
+
+					setTimeout(function() {
+						$('.zoom-minus').removeClass('active');
+					}, 100);
+				});
+
+				panoramaContent = $('#panorama');
+				panoramaContent[0].addEventListener( 'wheel', onDocumentMouseWheel, false );
+				panoramaContent[0].addEventListener( 'keypress', onDocumentKeyPress, false );
+
+				$(document).on('fullscreenchange webkitfullscreenchange mozfullscreenchange MSFullscreenChange', function() {
+					if(IsFullScreenCurrently()) {
+						$('.fullscreen').addClass('active');
+					}
+					else {
+						$('.fullscreen').removeClass('active');
+						$('.pnlm-about-msg').css({"display": "none", "opacity": "0"});
+					}
+				});
+			}
+
+			onDocumentKeyPress = function(event) {
+				event.preventDefault();
+				if (event.which === 32) {
+					autoRotate();
+				}
+			}
+
+			onDocumentMouseWheel = function(event) {
+				$('.auto-rotate').removeClass('active');
+			}
+
+			mousedown = function() {
+				$('.auto-rotate').removeClass('active');
+				$('.pnlm-about-msg').css({"display": "none", "opacity": "0"});
+			}
+
+			panoramaEvents = function() {
+				panorama.on('mousedown', mousedown);
+			}
+
+			GoInFullscreen = function(element) {
+				if(element.requestFullscreen)
+					element.requestFullscreen();
+				else if(element.mozRequestFullScreen)
+					element.mozRequestFullScreen();
+				else if(element.webkitRequestFullscreen)
+					element.webkitRequestFullscreen();
+				else if(element.msRequestFullscreen)
+					element.msRequestFullscreen();
+			}
+
+			/* Get out of full screen */
+			GoOutFullscreen = function() {
+				if(document.exitFullscreen)
+					document.exitFullscreen();
+				else if(document.mozCancelFullScreen)
+					document.mozCancelFullScreen();
+				else if(document.webkitExitFullscreen)
+					document.webkitExitFullscreen();
+				else if(document.msExitFullscreen)
+					document.msExitFullscreen();
+			}
+
+			IsFullScreenCurrently = function() {
+				var full_screen_element = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement || null;
+	
+				if(full_screen_element === null) {
+					return false;
+				}
+				else {
+					return true;
+				}
+			}
+
+			toggleFullscreen = function() {
+				if(IsFullScreenCurrently()) {
+					GoOutFullscreen();
+				} else {
+					GoInFullscreen($('#panorama').get(0));
+				}
+			}
+
+			autoRotate = function() {
+				if (panorama != '') {
+					config = panorama.getConfig();
+					$('.auto-rotate').toggleClass('active');
+					if (config.autoRotate == false) {
+						config.autoRotate = -10;
+						panorama.lookAt(panorama.getPitch(), undefined, panorama.getHfov(), false);
+					} else {
+						panorama.stopAutoRotate();
+					}
+				}
+				$('.pnlm-about-msg').css({"display": "none", "opacity": "0"});
+			}
+
+			zoomIn = function() {
+				if (panorama != '') {
+					panorama.setHfov(panorama.getHfov() - 10, false);
+				}
+				$('.pnlm-about-msg').css({"display": "none", "opacity": "0"});
+			}
+
+			zoomOut = function() {
+				if (panorama != '') {
+					panorama.setHfov(panorama.getHfov() + 10, false);
+				}
+				$('.pnlm-about-msg').css({"display": "none", "opacity": "0"});
+			}
+
+			init();
+			panoramaEvents();
+
+			window.panorama = panorama;
+
+		});
+	</script>
+
+</body>
+</html>
